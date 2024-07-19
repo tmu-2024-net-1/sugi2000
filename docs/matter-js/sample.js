@@ -16,9 +16,13 @@ var engine = Engine.create();
 var world = engine.world;
 
 // create a renderer
-var render = Render.create({
+const render = Render.create({
     element: document.body,
-    engine: engine
+    engine: engine,
+    options: {
+        wireframes: false,
+        background: '#f4f4f8'
+    }
 });
 
 // add bodies
@@ -69,6 +73,7 @@ loadSvg('./svg/svg.svg').then(function(root) {
     }, true));
 });
 
+// add walls
 Composite.add(world, [
     Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
     Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
