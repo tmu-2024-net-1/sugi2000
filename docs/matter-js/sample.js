@@ -1,5 +1,5 @@
 // module aliases
-var Engine = Matter.Engine,
+const Engine = Matter.Engine,
     Render = Matter.Render,
     Runner = Matter.Runner,
     Common = Matter.Common,
@@ -12,8 +12,8 @@ var Engine = Matter.Engine,
 Common.setDecomp(decomp);
 
 // create an engine
-var engine = Engine.create();
-var world = engine.world;
+const engine = Engine.create();
+const world = engine.world;
 
 // create a renderer
 const render = Render.create({
@@ -26,16 +26,18 @@ const render = Render.create({
 });
 
 // add bodies
-var select = function(root, selector) {
+const select = function(root, selector) {
     return Array.prototype.slice.call(root.querySelectorAll(selector));
 };
 
-var loadSvg = function(url) {
+// load SVG function
+const loadSvg = function(url) {
     return fetch(url)
         .then(function(response) { return response.text(); })
         .then(function(raw) { return (new window.DOMParser()).parseFromString(raw, 'image/svg+xml'); });
 };
 
+// load SVG
 ([
     './svg/iconmonstr-check-mark-8-icon.svg', 
     './svg/iconmonstr-paperclip-2-icon.svg',
@@ -43,9 +45,9 @@ var loadSvg = function(url) {
     './svg/iconmonstr-user-icon.svg'
 ]).forEach(function(path, i) { 
     loadSvg(path).then(function(root) {
-        var color = Common.choose(['#f19648', '#f5d259', '#f55a3c', '#063e7b', '#ececd1']);
+        const color = Common.choose(['#f19648', '#f5d259', '#f55a3c', '#063e7b', '#ececd1']);
 
-        var vertexSets = select(root, 'path')
+        const vertexSets = select(root, 'path')
             .map(function(path) { return Vertices.scale(Svg.pathToVertices(path, 30), 0.4, 0.4); });
 
         Composite.add(world, Bodies.fromVertices(100 + i * 150, 200 + i * 50, vertexSets, {
@@ -58,10 +60,11 @@ var loadSvg = function(url) {
     });
 });
 
+// load SVG
 loadSvg('./svg/svg.svg').then(function(root) {
-    var color = Common.choose(['#f19648', '#f5d259', '#f55a3c', '#063e7b', '#ececd1']);
+    const color = Common.choose(['#f19648', '#f5d259', '#f55a3c', '#063e7b', '#ececd1']);
     
-    var vertexSets = select(root, 'path')
+    const vertexSets = select(root, 'path')
         .map(function(path) { return Svg.pathToVertices(path, 30); });
 
     Composite.add(world, Bodies.fromVertices(400, 80, vertexSets, {
@@ -93,7 +96,7 @@ Composite.add(world, [
 Render.run(render);
 
 // create runner
-var runner = Runner.create();
+const runner = Runner.create();
 
 // run the engine
 Runner.run(runner, engine);
